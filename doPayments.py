@@ -22,6 +22,10 @@ def main():
 
     if config['doPayment'] == 1:
         fee = 10000000 + ((len(payments) / 2) * 10000000)
+
+        if fee < 30000000:
+            fee = 30000000
+
         attachment = base58.b58encode(config['attachmentText'].encode('latin-1'))
         data = {
             "type": 11,
@@ -33,14 +37,11 @@ def main():
             "attachment": attachment
         }
 
-        print(data)
-
         try:
             res = requests.post(config['node'] + '/transactions/signAndBroadcast', json=data, headers={'X-API-Key': config['apikey']}).json()
 
             print('payment passed, txid: ' + res['id'])
         except Exception as e:
             print('error during payment!')
-            print('exception: ' + str(e))
 
 main()

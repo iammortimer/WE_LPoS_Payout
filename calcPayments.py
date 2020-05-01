@@ -173,8 +173,8 @@ def main():
 
     #save current blocks
     print('saving blockfile...')
-    #with open(config['blockStorage'], 'w') as outfile:
-    #    json.dump(blocks, outfile)
+    with open(config['blockStorage'], 'w') as outfile:
+        json.dump(blocks, outfile)
 
     print('preparing payments...')
     if config['endBlock'] == 0:
