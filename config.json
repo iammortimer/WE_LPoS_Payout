@@ -1,0 +1,14 @@
+{
+    "node": enter your node address, for example: "http://localhost:6862",
+    "address" : enter the WE address of your node,
+    "startBlock" : starting block of the calculations (usually the endBlock from the last time it was run or 1 if it's the first time),
+    "endBlock" : ending block for the calculations to run to (enter 0 if you want to use the current last block),
+    "apikey" : enter your api key for use with swagger,
+    "keypair" : enter your keypair password to be able to do transfers,
+    "percentageOfFeesToDistribute" : percentage of fees you want to distribute to your lessers, 
+    "minAmounttoPay" : minimum amount to pay to lessors,
+    "blockStorage": filename to store the processed blocks in,
+    "paymentStorage": filename to store the payments in,
+    "attachmentText" : text you want to attach to the payment to your lessors,
+    "doPayment" : enter 0 or 1, 0 will do a testrun of the payments, 1 will do the actual payments
+}
