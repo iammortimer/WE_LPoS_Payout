@@ -3,7 +3,7 @@ import json
 import os
 import base58
 
-with open('config.json') as json_file:
+with open('config_run.json') as json_file:
     config = json.load(json_file)
 
 def main():
@@ -20,28 +20,65 @@ def main():
 
     print('total amount to be paid: ' + str(total / pow(10,8)))
 
+    #do actual payment
     if config['doPayment'] == 1:
-        fee = 10000000 + ((len(payments) / 2) * 10000000)
+        url = '/transactions/signAndBroadcast'
+    else:
+        url = '/transactions/sign'
+        print('doing testpayment, no funds are actually transferred...')
 
-        if fee < 30000000:
-            fee = 30000000
+    fee = 10000000 + ((len(payments) / 2) * 10000000)
 
-        attachment = base58.b58encode(config['attachmentText'].encode('latin-1'))
+    if fee < 30000000:
+        fee = 30000000
+
+    attachment = base58.b58encode(config['attachmentText'].encode('latin-1'))
+    data = {
+        "type": 11,
+        "sender": config['address'],
+        "password": config['keypair'],
+        "fee": fee,
+        "version": 1,
+        "transfers": payments,
+        "attachment": attachment
+    }
+
+    paymentDone = False
+    try:
+        res = requests.post(config['node'] + url, json=data, headers={'X-API-Key': config['apikey']}).json()
+
+        print('payment passed, txid: ' + res['id'])
+        paymentDone = True
+    except Exception as e:
+        print('error during payment!')
+        print('failed with this transfer data: ')
+        print(data)
+
+    #move remaining balance to other account
+    if paymentDone and config['moveRemainder'] == 1:
+        balance = requests.get(config['node'] + '/addresses/balance/' + config['address']).json()['balance']
+        print('remaining balance after payout: ' + str(balance / pow(10,8)))
+
+        print('moving remaining balance to: ' + config['addressCosts'])
+        fee = 10000000
+        amount = balance - fee
         data = {
-            "type": 11,
+            "type": 4,
+            "version": 2,
             "sender": config['address'],
             "password": config['keypair'],
-            "fee": fee,
-            "version": 1,
-            "transfers": payments,
-            "attachment": attachment
+            "recipient": config['addressCosts'],
+            "amount": round(amount),
+            "fee": fee
         }
-
         try:
-            res = requests.post(config['node'] + '/transactions/signAndBroadcast', json=data, headers={'X-API-Key': config['apikey']}).json()
+            res = requests.post(config['node'] + url, json=data, headers={'X-API-Key': config['apikey']}).json()
 
             print('payment passed, txid: ' + res['id'])
         except Exception as e:
             print('error during payment!')
+            print('failed with this transfer data: ')
+            print(data)
+
 
 main()

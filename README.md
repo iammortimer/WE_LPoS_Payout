@@ -21,6 +21,7 @@ Now we need to configure the settings for the script. For this we need to edit t
 {
     "node": enter your node address, for example: "http://localhost:6862",
     "address" : enter the WE address of your node,
+    "addressCosts" : enter the WE address where you wawnt to move remaining funds to,
     "startBlock" : starting block of the calculations (usually the endBlock from the last time it was run or 1 if it's the first time),
     "endBlock" : ending block for the calculations to run to (enter 0 if you want to use the current last block),
     "apikey" : enter your api key for use with swagger,
@@ -30,7 +31,8 @@ Now we need to configure the settings for the script. For this we need to edit t
     "blockStorage": filename to store the processed blocks in,
     "paymentStorage": filename to store the payments in,
     "attachmentText" : text you want to attach to the payment to your lessors,
-    "doPayment" : enter 0 or 1, 0 will do a testrun of the payments, 1 will do the actual payments
+    "doPayment" : enter 0 or 1, 0 will do a testrun of the payments, 1 will do the actual payments,
+    "moveRemainder" : enter 0 or 1, 0 will do nothing, 1 will move remaining funds after the payout to the address in addressCosts
 }
 ```
 
@@ -39,6 +41,7 @@ Here's an example of a filled out file:
 {
     "node": "http://192.168.16.236:6862",
     "address" : "3NmDCwY6oi2yu7EMDNqmnJvy7ZLAK76hFgy",
+    "addressCosts" : "3Nsowj5JUjdPwQUMhfbjq4xEGTThBsnBfvE",
     "startBlock" : 1,
     "endBlock" : 0,
     "apikey" : "thisismyapikey",
@@ -48,7 +51,8 @@ Here's an example of a filled out file:
     "blockStorage": "blocks.json",
     "paymentStorage": "payments.json",
     "attachmentText" : "thank you for supporting Morty's node",
-    "doPayment" : 1
+    "doPayment" : 1,
+    "moveRemainder" : 1
 }
 ```
 
