@@ -12,7 +12,7 @@ with open('config.json') as json_file:
     config = json.load(json_file)
 
 def getAllBlocks():
-    startblock = config['startBlock']
+    startblock = 1
     steps = 100
     blocks = []
     
