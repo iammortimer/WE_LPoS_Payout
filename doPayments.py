@@ -61,7 +61,7 @@ def main():
 
         print('moving remaining balance to: ' + config['addressCosts'])
         fee = 10000000
-        amount = balance - fee
+        amount = balance - total - fee
         data = {
             "type": 4,
             "version": 2,
