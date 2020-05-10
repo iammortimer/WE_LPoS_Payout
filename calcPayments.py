@@ -70,13 +70,10 @@ def prepareDataStructure(blocks):
                 tx['block'] = block['height']
                 myCanceledLeases[tx['leaseId']] = tx
 
-            if tx['fee'] < (1001 * pow(10, 8)):
-                fee += tx['fee']
-
         if len(prevBlock) > 0:
             block['previousBlockFees'] = prevBlock['fees']
         
-        block['fees'] = fee
+        block['fees'] = block['fee']
         prevBlock = block
 
     return blocks
