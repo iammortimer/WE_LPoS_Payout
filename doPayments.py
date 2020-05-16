@@ -33,6 +33,9 @@ def main():
     if fee < 30000000:
         fee = 30000000
 
+    if fee > 30000000 and fee < 60000000:
+        fee = 60000000
+
     attachment = base58.b58encode(config['attachmentText'].encode('latin-1'))
     data = {
         "type": 11,
@@ -54,10 +57,12 @@ def main():
         print('error during payment!')
         print('failed with this transfer data: ')
         print(data)
+        print('result was: ')
+        print(res)
 
     #move remaining balance to other account
     if paymentDone and config['moveRemainder'] == 1:
-        time.sleep(60)
+        time.sleep(120)
         balance = requests.get(config['node'] + '/addresses/balance/' + config['address']).json()['balance']
         print('remaining balance after payout: ' + str(balance / pow(10,8)))
 
@@ -81,6 +86,8 @@ def main():
             print('error during payment!')
             print('failed with this transfer data: ')
             print(data)
+            print('result was: ')
+            print(res)
 
 
 main()

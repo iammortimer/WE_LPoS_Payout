@@ -162,7 +162,7 @@ def main():
         if block['height'] < config['startBlock']:
             for tx in block['transactions']:
                 if tx['type'] == 8 or tx['type'] == 9:
-                    txs += tx
+                    txs.append(tx)
         else:
             txs = block['transactions']
 
