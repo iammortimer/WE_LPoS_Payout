@@ -2,6 +2,7 @@ import requests
 import json
 import os
 import base58
+import time
 
 with open('config.json') as json_file:
     config = json.load(json_file)
@@ -56,12 +57,13 @@ def main():
 
     #move remaining balance to other account
     if paymentDone and config['moveRemainder'] == 1:
+        time.sleep(60)
         balance = requests.get(config['node'] + '/addresses/balance/' + config['address']).json()['balance']
         print('remaining balance after payout: ' + str(balance / pow(10,8)))
 
         print('moving remaining balance to: ' + config['addressCosts'])
         fee = 10000000
-        amount = balance - total - fee
+        amount = balance - fee
         data = {
             "type": 4,
             "version": 2,
