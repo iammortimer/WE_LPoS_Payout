@@ -28,13 +28,13 @@ def main():
         url = '/transactions/sign'
         print('doing testpayment, no funds are actually transferred...')
 
-    fee = 10000000 + ((len(payments) / 2) * 10000000)
+    fee = 10000000 + ((len(payments)+1 / 2) * 10000000)
 
     if fee < 30000000:
         fee = 30000000
 
-    if fee > 30000000 and fee < 60000000:
-        fee = 60000000
+    # if fee > 30000000 and fee < 60000000:
+    #     fee = 60000000
 
     attachment = base58.b58encode(config['attachmentText'].encode('latin-1'))
     data = {
