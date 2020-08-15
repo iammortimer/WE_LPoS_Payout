@@ -1,5 +1,8 @@
-config_run.json
+config*.json
 blocks.json
 payments.json
 .vscode/launch.json
 blocks.json.old
+blocks - Copy.json
+.vscode/settings.json
+config.json
